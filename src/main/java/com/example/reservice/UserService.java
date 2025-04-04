@@ -30,8 +30,29 @@ public class UserService {
         return userDAO.save(u);
     }
 
-   /* public void deleteUser(int id) {
-        userRepository.delete(id);
+    public void deleteUser(int id) {
+        userDAO.deleteById(id);
     }
-    */
+
+    public User patchUser(int id, UserDTO partialUser) {
+        Optional<User> optionalUser = userDAO.findById(id);
+        if (optionalUser.isEmpty()) return null;
+
+        User existingUser = optionalUser.get();
+
+        if (partialUser.getEmail() != null) {
+            existingUser.setEmail(partialUser.getEmail());
+        }
+
+        if (partialUser.getFullName() != null) {
+            existingUser.setFullName(partialUser.getFullName());
+        }
+
+        if (partialUser.getPassword() != null) {
+            existingUser.setPassword(partialUser.getPassword());
+        }
+
+        return userDAO.save(existingUser);
+    }
+
 }

@@ -1,6 +1,8 @@
 package com.example.reservice;
 
+import com.github.fge.jsonpatch.JsonPatch;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.web.JsonPath;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +25,7 @@ public class UserReosurce {
     public ResponseEntity<UserDTO> getUser(@PathVariable int id){
         return ResponseEntity.ok().body(userController.getUser(id));
     }
-/*
+
     @DeleteMapping("/{id}")
     public ResponseEntity<UserDTO> removeUser(@PathVariable int id){
         UserDTO u =userController.getUser(id);
@@ -31,11 +33,21 @@ public class UserReosurce {
         return ResponseEntity.ok().body(u);
     }
 
- */
+
 
     @PostMapping
     public ResponseEntity<UserDTO> addUser(@RequestBody UserDTO user){
         userController.newUser(user);
         return ResponseEntity.ok().body(user);
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<UserDTO> patchUser(@PathVariable int id, @RequestBody JsonPatch ) {
+        UserDTO updated = userController.patchUser(id, user);
+        if (updated == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(updated);
+    }
+
 }
