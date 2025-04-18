@@ -34,25 +34,15 @@ public class UserService {
         userDAO.deleteById(id);
     }
 
-    public User patchUser(int id, UserDTO partialUser) {
-        Optional<User> optionalUser = userDAO.findById(id);
-        if (optionalUser.isEmpty()) return null;
-
-        User existingUser = optionalUser.get();
-
-        if (partialUser.getEmail() != null) {
-            existingUser.setEmail(partialUser.getEmail());
+    public User updateUser(UserDTO userDTO) {
+        User existingUser = userDAO.findById(userDTO.getId()).orElse(null);
+        if (existingUser != null) {
+            existingUser.setEmail(userDTO.getEmail());
+            existingUser.setFullName(userDTO.getFullName());
+            existingUser.setPassword(userDTO.getPassword());
+            return userDAO.save(existingUser);
         }
-
-        if (partialUser.getFullName() != null) {
-            existingUser.setFullName(partialUser.getFullName());
-        }
-
-        if (partialUser.getPassword() != null) {
-            existingUser.setPassword(partialUser.getPassword());
-        }
-
-        return userDAO.save(existingUser);
+        return null;
     }
 
 }

@@ -31,11 +31,9 @@ public class UserController {
         userService.deleteUser(id);
     }
 
-    public UserDTO patchUser(int id, UserDTO partialUser) {
-        User u = userService.patchUser(id, partialUser);
-        return u != null ? new UserDTO(u) : null;
+    public void updateUser(UserDTO userDTO) {
+        userService.updateUser(userDTO);
     }
-
 
 
 }

@@ -31,4 +31,9 @@ public class UserDTO {
     public String getPassword() {
         return password;
     }
+
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }
